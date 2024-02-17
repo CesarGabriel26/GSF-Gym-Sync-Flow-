@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { StatusBar } from 'react-native-web';
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -16,7 +17,7 @@ import CalendarScreen from '../pages/Calendar';
 
 const Tab = createBottomTabNavigator();
 
-export default function MainScreen() {
+export default function MainScreen(params) {
 
   return (
     <NavigationContainer theme={CustomLightTheme}>
@@ -60,7 +61,7 @@ export default function MainScreen() {
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Chat" component={ChatScreen} />
         <Tab.Screen name="Calendar" component={CalendarScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
+        <Tab.Screen name="Settings" component={SettingsScreen} initialParams={{ LogOutFunction: () => {params.LogOutFunction()} }} />
 
       </Tab.Navigator>
     </NavigationContainer>

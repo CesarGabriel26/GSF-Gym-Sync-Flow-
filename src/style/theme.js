@@ -11,7 +11,13 @@ export const CustomLightTheme = {
     Grad : ['#ED4264',"#FDDEB4"],
     BarActiveTint : '#ED4264',
     BarInactiveTint : '#3b3b3b',
+    
     PrimaryButtonColor: '#000000',
+    
+    White : '#FFFFFF',
+    Black : "#000000",
+
+    ModalBg : '#f0f0e0',
 
   },
 };
