@@ -3,6 +3,11 @@ import 'intl-pluralrules';
 import { initReactI18next } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
+//!
+import { pt_br } from '../languages/pt_br';
+import { en_us } from '../languages/en_us';
+
 const languageDetector = {
   type: 'languageDetector',
   async: true,
@@ -13,7 +18,11 @@ const languageDetector = {
   },
   init: () => {},
   cacheUserLanguage: () => {},
-};
+}
+
+export function LoadAvaliableLanguages() {
+
+}
 
 i18n
   .use(languageDetector)
@@ -21,23 +30,8 @@ i18n
   .init({
     fallbackLng: 'pt_br',
     resources: {
-      pt_br: {
-          translation: {
-            'laguage_code' : 'Português (Brasil)',
-            'language' : 'Idioma', 
-            'hello' : 'Olá',
-            'welcome' : 'Bem Vindo',
-          },
-        },
-      en: {
-        translation: {
-          'laguage_code' : 'English (US)',
-          'language' : 'language', 
-          'hello': 'Hello',
-          'welcome': 'Welcome',
-        },
-      },
-      // Adicione mais idiomas conforme necessário
+      pt_br: pt_br,
+      en_us:  en_us,
 
     },
   });

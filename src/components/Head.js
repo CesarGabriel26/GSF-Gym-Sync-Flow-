@@ -3,27 +3,41 @@ import { Ionicons } from '@expo/vector-icons';
 import { Text, View, Image, Pressable} from 'react-native';
 import { GetUserDataById } from '../managers/ApiManager';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SaveOnStorage } from '../managers/UserDataManager';
+import { SaveOnStorage, LoadFromStorage } from '../managers/UserDataManager';
 
 
 export default function Header() {
-    const [Pfp, SetPfp] = React.useState('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2wqLv2VOrfZeEAO3jSHxvmEL7eZA-VeJ_L8-L3q7gdcLzV6YeRGHpWoCr06dsriPxvYY&usqp=CAU');
+    const [Pfp, SetPfp] = React.useState(' ');
+    const [userData, setUserData] = React.useState({});
 
     const checkToken = async () => {
+
         const userToken = await AsyncStorage.getItem('userToken');
         const parsedToken = JSON.parse(userToken);
+
         GetUserDataById(Number(parsedToken['userId']))
         .then(data => {
             SetPfp(data['profile_picture'])
             SaveOnStorage(data)
         })
         .catch(error => {
-        alert('Erro ao obter data do usuário: ' + error.message);
+            alert('Erro ao obter data do usuário: ' + error.message);
         });
       };
 
+    const Storage = async () => {
+        let data = await LoadFromStorage()
+        SetPfp(data['profile_picture'])
+
+        return true
+    };
+
     React.useEffect(() => {
-        checkToken();
+        
+        if (!Storage()) {
+            checkToken()
+        }
+
     }, []);
 
     return (

@@ -82,3 +82,31 @@ export function GetUserDataById(Id) {
         });
     });
 }
+
+export function UpdateUser(id, updatedUserData) {
+  const localUrl = `${URL}/Users/edit/${id}`;
+
+  return new Promise((resolve, reject) => {
+    fetch(localUrl, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedUserData),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao atualizar o usuário');
+        }
+        return response.json();
+      })
+      .then(updatedUser => {
+        // console.log('Usuário atualizado com sucesso:', updatedUser);
+        resolve(updatedUser);
+      })
+      .catch(error => {
+        console.error('Erro ao atualizar o usuário:', error);
+        reject(error);
+      });
+  });
+}

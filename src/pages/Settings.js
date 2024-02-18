@@ -5,22 +5,24 @@ import { CustomLightTheme } from "../style/theme";
 import { GlobalStyles } from "../style/style";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
-import i18n from '../managers/LanguageManager';
+import { Ionicons } from '@expo/vector-icons';
 
+import { Languages } from '../languages/languagesCodes';
 import Header from "../components/Head";
 import SettingButton from "../components/SettingsButton";
-import { registerForPushNotifications, sendNotification } from "../components/Notificator";
+import ProfileModal from './SettingsPages/ProfileModal';
 
 
 export default function SettingsScreen({ route }) {
-    const [LanguageModalVisible, setLanguageModalVisible] = React.useState(false);
-
     const { t, i18n } = useTranslation();
-
+    
     const changeLanguage = async (lng) => {
         await AsyncStorage.setItem('language', lng);
         i18n.changeLanguage(lng);
     };
+
+    const [LanguageModalVisible, setLanguageModalVisible] = React.useState(false);
+    const [ProfileModalVisible, setProfileModalVisible] = React.useState(false);
 
     return (
         <View style={{ flex: 1}} theme={CustomLightTheme}>
@@ -30,13 +32,9 @@ export default function SettingsScreen({ route }) {
 
                 <View style={{flex : 8, width : '100%', padding : 10}}>
                 
-                    <SettingButton onPress={()=>{
-
-                        setLanguageModalVisible(true)
+                    <SettingButton onPress={()=>{setLanguageModalVisible(true)}} style={GlobalStyles.Space_T_B} icon="language-outline" title={t('language')} text={t('laguage_code')} />
                     
-                    }} style={GlobalStyles.Space_T_B} icon="language-outline" title={t('language')} text={t('laguage_code')} />
-                    
-                    <SettingButton onPress={()=>{alert("Profile")}} style={GlobalStyles.Space_T_B} icon="person-outline" title="Profile" text="pfp,name,email..." />
+                    <SettingButton onPress={()=>{setProfileModalVisible(true)}} style={GlobalStyles.Space_T_B} icon="person-outline" title="Profile" text="pfp,name,email..." />
                     
                     <SettingButton onPress={()=>{
                         alert("NOTIFY")
@@ -56,6 +54,7 @@ export default function SettingsScreen({ route }) {
                 </View>
 
                 <View>
+
                     <Modal animationType="slide" transparent={true} visible={LanguageModalVisible}
                         onRequestClose={() => {
                             setLanguageModalVisible(!LanguageModalVisible);
@@ -64,17 +63,29 @@ export default function SettingsScreen({ route }) {
                         <View style={{ flex : 1, justifyContent : 'center', alignItems : 'center' }} >
                             <View style={{ flex : 1, width : '100%', backgroundColor : CustomLightTheme.colors.ModalBg, padding : 15, borderRadius : 20 }} >
 
-                                <SettingButton onPress={()=>{changeLanguage('en')}} style={GlobalStyles.Space_T_B} icon="headset-outline" text={t('welcome')} />
-                                <SettingButton onPress={()=>{changeLanguage('pt_br')}} style={GlobalStyles.Space_T_B} icon="headset-outline" text={t('welcome')} />
-
                                 <Pressable onPress={() => setLanguageModalVisible(!LanguageModalVisible)}>
-                                    <Text>Hide Modal</Text>
+                                    <Ionicons name={'caret-back-outline'} style = {{margin : 10}} size={30} color="black" />
                                 </Pressable>
+
+                                {
+                                    Languages.map(lang => (
+                                        <SettingButton
+                                            key={lang.code}
+                                            onPress={() => { changeLanguage(lang.code) }}
+                                            style={GlobalStyles.Space_T_B}
+                                            icon="language-outline"
+                                            text={lang.name}
+                                        />
+                                    ))
+                                }
 
                             </View>
                         </View>
 
                     </Modal>
+
+                    <ProfileModal onRequestClose={() => setProfileModalVisible(!ProfileModalVisible)}  visible={ProfileModalVisible}/>
+                    
                 </View>
 
             </LinearGradient>

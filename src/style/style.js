@@ -4,6 +4,10 @@ import { CustomLightTheme } from "./theme";
 export const GlobalStyles = StyleSheet.create({
     GradiantContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
 
+    AlingCenter : { flex : 1, justifyContent : 'center', alignItems : 'center' },
+
+    RoundImage  : {height : 200, width : 200, borderRadius : 500},
+
     SideToSideContainer : { 
         flexDirection: 'row',
     },
@@ -38,6 +42,8 @@ export const GlobalStyles = StyleSheet.create({
         borderBottomWidth: 1,
         paddingLeft: 10,
     },
+
+
     
 });
 
